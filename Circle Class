@@ -1,0 +1,88 @@
+# Brian1030
+
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+class circle
+{
+	private:
+		
+	double radius; // declairing the radius by doubling pie
+	double pi;
+	
+	public:
+		
+	circle()
+      { radius = 0.0; pi = 3.14159; } //set the radius and pi
+      
+		void setradius(int);
+		
+		int getradius()
+		{ return radius;}
+		
+		double getdiameter()const
+			{return radius * 2;}
+			
+		double getcircumference () const
+			{return 2 * pi * radius;}
+			
+		double getarea ()const 
+		{return pi * radius * radius;}
+		
+		
+		void inputcircle();
+		void displaycircle();
+};
+
+//setradius assign a value to the radius 
+
+void circle::setradius(int r)
+		{
+		if (r >= 0) 
+		radius = r;
+		else {
+				cout << "Invalid radius "<< endl;
+			//	exit(EXIT_FAILURE);
+			  }
+		
+		}
+		
+void circle::inputcircle()
+		{
+		cout<<"Enter the radius of a Circle: " <<endl;
+		cin>>radius;		
+		}
+
+void circle::displaycircle()
+		{
+		cout<<endl;
+		//cout << "Here is c1's circle data: \n";
+		cout << "Radius = " << getradius() <<endl;
+		cout << "Area = " << getarea() << endl;
+		
+		}
+//function main
+
+int main()
+
+{
+		circle c1;	 //Define circle 1
+		circle c2;	 // circle 2
+		
+		c1.setradius(0.0);
+		c2.setradius(5.0);
+		
+		
+		c1.inputcircle();	
+		
+		
+		c1.displaycircle();	
+		c1.setradius(10.0);
+		cout << "Circumference = "<< c1.getcircumference() << endl;		
+		cout <<"diameter: "<<c2.getdiameter()<<endl;
+			
+		
+return 0;
+}
