@@ -1,0 +1,205 @@
+# Brian1030
+//Brian Etheridge
+//Inventory Program 
+
+#include<iostream>
+#include<iomanip>
+#include<fstream>
+#include<string>
+using namespace std;
+
+
+
+	void addRecord(fstream&);
+	void veiwRecord(fstream&);
+	void changeRecord(fstream&);
+	int menu();
+	
+	const int DESC_SIZE = 11;
+	const int DATE_SIZE = 11;
+	
+	struct inventoryData
+	
+	{
+	char desc[DESC_SIZE];
+	int quantity;
+	double wholesale;
+	double retail;
+	char date[DATE_SIZE];
+
+	};
+	
+	int main()
+	{
+	int selection;
+	int recordNumber;
+	int viewRecord;
+		
+	fstream dataFile("inventory.dat", ios::in | ios::out | ios::binary);
+    if (dataFile.fail())
+	{
+	//The file does not exist, so create it.
+	dataFile.open("inventory.dat", ios::out);
+	}
+	
+	selection = menu();
+	
+	while (selection != 4)
+	
+	//When thinking of case statements think of case of information that is held and repeat 
+{
+	switch (selection)
+	{
+	case 1:
+		{
+	//viewRecord(dataFile);
+	break;
+		}
+	case 2:
+	{
+	addRecord(dataFile);
+	break;
+	}
+	case 3:
+	{
+	changeRecord(dataFile);
+	break;
+	}
+	default:
+	{
+	cout << "Invalid - PLease use 1 to 4" << endl;
+	break;
+	}
+	selection = menu();
+	
+}
+}
+dataFile.close();
+return 0;
+
+	}
+	
+	void addRecord(fstream &file)
+{
+    fstream dataFile("inventory.dat", ios::in | ios::out | ios::binary);
+    inventoryData item;
+
+    cout << "Please enter the following data about the item" << endl;
+    cout << "Description: ";
+    cin.ignore();
+    cin.getline(item.desc, DESC_SIZE);
+    cout << "Quantity: ";
+    cin >> item.quantity;
+   // cout << "Quantity: ";
+    //cin >> item.quantity;
+    cout << "Wholesale cost: ";
+    cin >> item.wholesale;
+    cout << "Retail price: ";
+    cin >> item.retail;
+    cout << "Date (Please use MO/DA/YEAR format: ";
+    cin >> item.date;
+    dataFile.write(reinterpret_cast<char *>(&item), sizeof(item));
+
+    return;
+}
+
+void viewRecord(fstream &file)
+{
+    string output;
+    fstream dataFile("inventory.dat", ios::in | ios::out | ios::binary);
+
+    inventoryData item;
+    fstream items;
+    char again;
+
+    dataFile.read(reinterpret_cast<char *>(&item), sizeof(item));
+
+    while (!items.eof())
+    {
+    // Display the record.
+    cout << "Description: " << item.desc << endl;
+    cout << "Quantity: " << item.quantity << endl;
+    cout << "Wholesale Cost: " << item.wholesale << endl;
+    cout << "Retail Cost: " << item.retail << endl;
+    cout << "Date: " << item.date << endl;
+
+    // Wait for the user to press the Enter key.
+    cout << "\nPress the Enter key to see the next record.\n";
+
+    cin.get(again);
+    // Read the next record from the file.
+    dataFile.read(reinterpret_cast<char *>(&item), sizeof(item));
+    }
+}
+
+
+void changeRecord(fstream &file)
+{
+    fstream dataFile("inventory.dat", ios::in | ios::out | ios::binary);
+
+    inventoryData item;
+    int recordNumber;
+
+    cout << "Please choose a record number you want to edit" << endl;
+    cin >> recordNumber;
+    dataFile.seekg(recordNumber * sizeof(item), ios::beg);
+    dataFile.read(reinterpret_cast<char *>(&item), sizeof(item));
+    cout << "Description: " << item.desc << endl;
+    cout << "Quantity: " << item.quantity << endl;
+    cout << "Wholesale cost: " << item.wholesale << endl;
+    cout << "Retail price: " << item.retail << endl;
+    cout << "Date: " << item.date << endl;
+    cout << endl;
+
+    // Get the new record data.
+    cout << "Enter the new data:\n";
+    cout << "Description: ";
+    cin.ignore();
+    cin.getline(item.desc, DESC_SIZE);
+    cout << "Quantity: ";
+    cin >> item.quantity;
+    cout << "Quantity: ";
+    cin >> item.quantity;
+    cout << "Wholesale cost: ";
+    cin >> item.wholesale;
+    cout << "Retail price: ";
+    cin >> item.retail;
+    cout << "Date (Please use MO/DA/YEAR format: ";
+    cin >> item.date;
+
+    // Move back to the beginning of this record's position
+    dataFile.seekp(recordNumber * sizeof(item), ios::beg);
+    // Write new record over the current record
+    dataFile.write(reinterpret_cast<char *>(&item), sizeof(item));
+
+}
+
+//Display the Menu
+int menu()
+{
+    int menuSelection;
+
+    cout << fixed << showpoint << setprecision(2);
+    cout << "----------Inventory----------" << endl;
+    cout << "1 - View inventory" << endl;
+    cout << "2 - Add an item" << endl;
+    cout << "3 - Edit an item" << endl;
+    cout << "4 - End Program" << endl;
+    cin >> menuSelection;
+
+    if (!cin)
+    {
+        cout << "Invalid - Please use 1 to 4" << endl;
+        cin >> menuSelection;
+    }
+
+    if (menuSelection < 1 || menuSelection > 4)
+    {
+        cout << "Invalid - Please use 1 to 4" << endl;
+        cin >> menuSelection;
+    }
+
+    return menuSelection;
+}
+		
+		
