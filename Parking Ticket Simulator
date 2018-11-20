@@ -1,0 +1,342 @@
+# Brian1030
+//This is using header files 
+
+////////////////////////////////////////////////ParkedCar headerfile ////////////////////////////////////////////////////////////
+#ifndef ParkedCar
+#define ParkedCar
+#include <iostream>
+#include <string>
+using namespace std;
+
+//Parked car class
+class parkedCar
+{
+	private:
+		string carMake; //year car was made
+		string carModel; // model of car
+		string carColor; //color of car
+		string carLicensePlate; //license number
+		int minutesParked; //minutes parked
+		
+	public:
+		//the  default constructor stores emptu strings 
+		//in the string objects
+		parkedCar()
+		{
+			carMake = "";
+			carModel = "";
+			carColor = "";
+			carLicensePlate = "";
+			minutesParked = 0;
+		}
+		
+		//set function
+		void setcarsMake(string make)
+		{
+			carMake = make;
+		}
+		
+		void setCarModel(string model)
+		{
+			carModel = model;
+		}
+          
+        void setCarColor(string color)
+        {
+        	carColor = color;
+		}
+		
+		void setCarLicensePlate(string license)
+		{
+			carLicensePlate = license;
+		}
+        
+        void setMinutesParked(int minutes)
+        {
+        	minutesParked = minutes;
+		}
+		
+		//accessor functions
+		string getCarMake()const
+		{
+			return carMake;
+		}
+		
+		string getCarModel() const
+		{
+			return carModel;
+		}
+		
+		string getCarColor() const
+		{
+			return carColor;
+		}
+		
+		string getCarLicensePlate()const
+		{
+			return carLicensePlate;
+		}
+		
+		int getMinutesParked()const
+		{
+			return minutesParked;
+		}
+};
+#endif
+
+//////////////////////////////////////////////////ParkingMeter header file ///////////////////////////////////////////////////////
+#ifndef ParkingMeter
+#define ParkingMeter
+#include <iostream>
+#include <string>
+using namespace std;
+
+//ParkingMeter Class
+class PARKINGMETER
+{
+	private:
+		int parkingTime; //minutes of parking time thats been purchased
+		
+	public:
+		//The default constructor stores emptu strings
+		// in the string objects
+		PARKINGMETER()
+		{ parkingTime = 0; }
+     
+	 //contructor
+//	 PARKINGMETER(string minutesPurchased)
+//	 {set (minutesPurchased);	}
+	 
+	 //set function 
+	 void setParkingTime(int minutesPurchased)
+	 { parkingTime = minutesPurchased;}	
+	 
+	 //print function
+	int getParkingTime()const
+	{ 
+	return parkingTime;
+	}
+};
+#endif
+
+/////////////////////////////////////////////////////////////ParkingTicket/////////////////////////////////////////////////////
+#ifndef ParkingTicket
+#define ParkingTicket
+#include <iostream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+//Parked car class
+class parkingticket
+{
+	private:
+		double fine;
+		int timeOver;
+		float time_AfterHours;
+		float hour;
+		
+	public:
+		//constructor
+		parkingticket()
+		{ fine = 0.0;
+		timeOver= 0;
+		time_AfterHours = 0.0;
+		}
+		
+		//mutator function
+		void setTimeOver(int STO)
+          {
+          	timeOver = STO;
+		  }
+		  void calculateFine()
+		  {
+		  	hour = 60.0; // 1 hour
+		  	if (timeOver < hour)
+		  	{ fine = 25;}
+		  	else
+		  	{ time_AfterHours = timeOver - hour;
+		  	fine = 25 + (10* (time_AfterHours/hour));
+			  }
+		  }
+          //Print function
+          void report(string cMake, string cModel, string cColor, string cLicensePlate, string cMinParked,string name, int badgeNumber) const
+          { 
+		  cout << "/nParking Ticket";
+		  cout << "\nIllegal parked car";
+		  cout << "\n CAR INFORMATION";
+		  cout << "car's Make: " << cMake << endl;
+            cout << "model: " << cModel << endl;
+            cout << "color: " << cColor << endl;
+            cout << "License Number: " << cLicensePlate << endl;
+            cout << "\nFINE";
+            cout << "\nFine amount: $" << fixed << setprecision(2) << fine;
+            cout << "\nOfficer name: " << name << endl; 
+            cout << "\nOfficer Badge Number:"  << badgeNumber <<  endl; }
+};
+#endif
+
+//////////////////////////////////////////////////////////Police Officer////////////////////////////////////////////////////////////
+#ifndef POLICE_OFFICER_H_
+#define POLICE_OFFICER_H_
+#include "ParkedCar.h"
+#include "ParkingMeter.h"
+#include "ParkingTicket.h"
+#include <string>
+class PoliceOfficer
+{
+	private:
+		string OfficerName;
+		int OfficerBadgeNumber;
+		parkedCar pCar;
+		PARKINGMETER pMeter;
+		int input1;
+		string cMake;
+		string cModel;
+		string cColor;
+		string cLicensePlate;
+		int cMinParked;
+		int timeOverLimit;
+		
+		public:
+			PoliceOfficer()
+			{
+				OfficerName = "";
+				OfficerBadgeNumber = 0;
+			}
+			//constructor
+			PoliceOfficer(string name, int badge)
+			{
+				setOfficerName(name);
+				setOfficerBadgeNumber(badge);
+			}
+			//mutator function
+			void setOfficerName(string name)
+			{
+				OfficerName = name;
+			}
+			void setOfficerBadgeNumber(int badge)
+			{
+				OfficerBadgeNumber = badge;
+			}
+			
+			//accessor function
+			string getOfficerName() const
+			{
+				return OfficerName;
+			}
+			
+			int getOfficerBadgeNumber()const
+			{
+			return OfficerBadgeNumber;
+		    }
+		    
+		    void examineParkedCar()
+		    {
+		    	//get info about car
+		    	cout << "\nEnter Car Make: ";
+		    	cin.ignore();
+		    	getline(cin, cMake);
+		    	pCar.setCarModel(cMake);
+		    	
+		    	cout << "\nEnter Model: ";
+		    	getline(cin, cModel);
+		    	pCar.setCarModel(cModel);
+		    	
+		    	cout << "\nEnter Color: ";
+		    	getline(cin, cColor);
+		    	
+		    	cout << "\nEnter License Plate: ";
+		    	getline(cin, cLicensePlate);
+		    	pCar.setCarLicensePlate(cLicensePlate);
+				
+				cout << "\nEnter amount time in minutes car has been parked: ";
+				cin >> cMinParked;
+				pCar.setMinutesParked(cMinParked);	    	
+			}
+			
+			void examineParkingMeter()
+			{
+				cout << "\nEnter minutes purchased: ";
+				cin >> input1;
+				pMeter.setParkingTime(input1);
+				
+				//meter and time comparison
+				if(pMeter.getParkingTime() >= pCar.getMinutesParked())
+				{
+					cout << "\nLegally Parked" << endl;
+				}
+				
+				if (pMeter.getParkingTime() >= pCar.getMinutesParked())
+				{
+					cout << "\nILLEGAL PARKING" <<endl;
+					cout << "\nIssuing Parking ticket..." << endl;
+					
+					timeOverLimit = pCar.getMinutesParked() - pMeter.getParkingTime();
+					
+					parkingticket ticket1;
+					ticket1.setTimeOver(timeOverLimit);
+					ticket1.calculateFine();
+				//	ticket1.report(pCar.getCarMake(), pCar.getCarModel(), pCar.getCarColor(), pCar.getCarLicensePlate());
+				}
+			 } 
+};
+#endif
+
+///////////////////////////////////////////////////////Main//////////////////////////////////////////////////////////////
+#include<iostream>
+#include<cstdlib>
+#include <string>
+#include "ParkedCar.h"
+#include "ParkingMeter.h"
+#include "ParkingTicket.h"
+#include "PoliceOfficer.h"
+using namespace std;
+
+
+int main()
+
+{
+	string input;
+	int number;
+	int choice;
+	
+	cout << "-----PARKING TICKET SIMULATOR------" << endl;
+	cout <<"\n-------OFFICER INFORMATION------\n" << endl;
+	cout << "You are the Officer giving the ticket describing information of the parked car, and parking ticket";
+	
+	cout << "\n\n Enter your name: ";
+	getline(cin,input);
+	
+	cout <<"\nEnter your badge number: ";
+	cin >> number;
+	
+	// officer object
+	PoliceOfficer Officer1(input, number);
+	do 
+{
+	//display menue
+	cout << " 1. Parking Ticket simulator.";
+	cout << "2. Quit the program";
+	cout << "\nEnter choice: ";
+	cin>> choice;
+	
+	while (!(choice == 1|| choice == 2))
+	{
+		cout << "Invalid Choice! Enter number on menu: ";
+		cin >> choice;
+	}
+	
+	//progress CHoice
+	if (choice == 1)
+	{
+		Officer1.examineParkedCar();
+		Officer1.examineParkingMeter();
+	}
+}while (choice != 2);
+cout << "THANK YOU ";
+
+cout << endl << endl;
+system("PAUSE");
+return 0;
+}
